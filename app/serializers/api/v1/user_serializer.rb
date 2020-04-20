@@ -1,6 +1,6 @@
 module Api
   module V1
-    class Api::V1::UserSerializer < ActiveModel::Serializer
+    class UserSerializer < ActiveModel::Serializer
       attributes :id, :name, :email, :tweets_count, :followers_count, :following_count
 
       def tweets_count
