@@ -1,24 +1,16 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Project: Creating a twitter clone api.
 
-Things you may want to cover:
+Using: Rail: 6.0.2, Ruby: 2.6.3, Postgresql, Docker, Docker-compose, Sidekiq, Elasticsearch...
 
-* Ruby version
+To run the project:
 
-* System dependencies
+1. docker-compose run --rm app bundle install
+2. docker-compose build
+3. docker-compose run --rm app bundle exec rails db:create db:migrate
+4. docker-compose up
 
-* Configuration
+Now open the http://localhost:3000/api/v1/user_token
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Project developed in the Bootcamp Super FullStack of OneBitCode
