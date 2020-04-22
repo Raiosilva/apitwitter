@@ -4,33 +4,35 @@ module Api
       before_action { current_user }
       before_action :set_tweet, except: %i[create index]
       before_action :authenticate_user, except: [:show, :index]
-      load_and_authorize_resource except: %i[index show create]
+      load_and_authorize_resource except: %i[index show]
 
       def index
         user = User.find params[:user_id]
         @tweets = user.tweets.paginate(page: params[:page] || 1)
         render json: @tweets
       end
-    
-      def show
-        render json: @tweet
-      end
-    
+
       def create
         @tweet = Tweet.new(tweet_params.merge(user: current_user))
 
         if @tweet.save
+          AddHashtagsJob.perform_later(@tweet.body)
           render json: @tweet, status: :created
-        end
+        else
           render json: { errors: @tweet.errors.full_messages }, status: :unprocessable_entity
+        end
       end
-    
+
+      def show
+        render json: @tweet
+      end
+
       def destroy
         @tweet.destroy
       end
     
       def update
-        if @tweet.update(tweet_params.merge(user: current_user))
+        if @tweet.update(tweet_params)
           render json: @tweet
         else
         render json: { errors: @tweet.errors.full_messages }, status: :unprocessable_entity

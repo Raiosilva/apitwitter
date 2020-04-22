@@ -7,7 +7,7 @@ class UpdateTrendingsJob < ApplicationJob
       hashtags[hashtag] = DataStore.redis.get(hashtag)
     end
  
-    @trending = Trending.new(hashtags: hashtags.sort_by(&:last).reverse[0..4])
+    @trending = Trending.new(hashtags: hashtags.sort_by{ |h| h.last.to_i }.reverse[0..4])
  
     if @trending.save
       hashtags.each do |hashtag|
@@ -18,4 +18,3 @@ class UpdateTrendingsJob < ApplicationJob
     end
   end
 end
- 

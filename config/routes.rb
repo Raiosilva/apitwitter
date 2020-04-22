@@ -2,15 +2,17 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
+
   namespace :api do
     namespace :v1 do
+      get 'trending', to: 'trending#index'
       post 'user_token' => 'user_token#create'
       get 'search', to: 'search#index'
       get 'autocomplete', to: 'search#autocomplete'
       get 'timeline', to: 'timeline#index'
 
-      resources :follows, only: %i[create destroy]
-      resources :likes, only: %i[create destroy]
+      # resources :follows, only: %i[create destroy]
+      # resources :likes, only: %i[create destroy]
 
       resources :tweets, only: %i[index show create update destroy] do
         member do
